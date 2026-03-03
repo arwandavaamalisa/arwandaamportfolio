@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Arwanda Amalisa</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .contact-section { background: var(--navy); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  /* INFO */
+  .info-block { margin-bottom: 32px; }
+
+  .info-card {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 22px 24px;
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    transition: all 0.3s;
+  }
+
+  .info-card:hover { border-color: rgba(201,168,76,0.25); }
+
+  .info-icon {
+    width: 44px; height: 44px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .info-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .info-value { font-weight: 500; font-size: 0.9rem; color: var(--white); line-height: 1.4; }
+  .info-sub { font-size: 0.75rem; font-weight: 300; color: var(--gray); margin-top: 2px; }
+
+  /* AVAILABILITY */
+  .avail-card {
+    background: var(--navy-light);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avail-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .avail-status { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .avail-dot { width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: blink 2s ease infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .avail-text { font-weight: 700; font-size: 0.88rem; color: var(--white); }
+  .avail-desc { font-size: 0.78rem; font-weight: 300; color: var(--gray); line-height: 1.5; }
+
+  /* SOCIAL */
+  .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .social-btn:hover { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.04); }
+  .social-icon { font-size: 1.3rem; }
+  .social-name { font-size: 0.8rem; font-weight: 600; color: var(--white); }
+  .social-handle { font-size: 0.68rem; font-weight: 300; color: var(--gray); }
+
+  /* FORM */
+  .contact-form {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 16px;
+    padding: 48px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light), transparent);
+  }
+
+  .form-title { font-family: 'Cormorant', serif; font-size: 1.8rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+  .form-sub { font-size: 0.82rem; font-weight: 300; color: var(--gray); margin-bottom: 32px; line-height: 1.6; }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-label {
+    display: block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 8px;
+  }
+
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--white);
+    outline: none;
+    transition: all 0.25s;
+    appearance: none;
+  }
+
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.22); }
+
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: rgba(201,168,76,0.5);
+    background: rgba(201,168,76,0.04);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.06);
+  }
+
+  .form-select option { background: var(--navy-mid); color: var(--white); }
+  .form-textarea { resize: vertical; min-height: 100px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-submit:hover { background: var(--gold-light); box-shadow: 0 8px 28px rgba(201,168,76,0.25); transform: translateY(-1px); }
+
+  .form-wa {
+    width: 100%;
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    padding: 14px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    margin-top: 10px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .form-wa:hover { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.3); color: #25D366; }
+
+  .form-divider { display: flex; align-items: center; gap: 12px; margin: 14px 0; color: rgba(255,255,255,0.2); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .form-divider::before, .form-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+
+  /* FAQ */
+  .faq-section { background: var(--navy-mid); border-top: 1px solid rgba(201,168,76,0.08); }
+
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 48px; }
+
+  .faq-item {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: 10px;
+    padding: 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .faq-item:hover { border-color: rgba(201,168,76,0.22); }
+
+  .faq-q { font-weight: 600; font-size: 0.88rem; color: var(--white); margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
+  .faq-q-icon { background: rgba(201,168,76,0.1); color: var(--gold); font-size: 0.6rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.08em; flex-shrink: 0; margin-top: 2px; }
+  .faq-a { font-size: 0.8rem; font-weight: 300; color: var(--gray); line-height: 1.7; }
+
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-form { padding: 32px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .social-grid { grid-template-columns: 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Arwanda <span class="nav-logo-dot"></span> Amalisa</a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li>
+    <li><a href="portfolio.html" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li>
+    <li><a href="services.html" data-en="Services" data-id="Layanan">Services</a></li>
+    <li><a href="contact.html" class="active" data-en="Contact" data-id="Kontak">Contact</a></li>
+  </ul>
+  <div class="nav-lang">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="id">ID</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Contact" data-id="Kontak">Contact</span></div>
+    <h1 class="page-title" data-en="Let's Build Something <em>Great</em>" data-id="Mari Buat Sesuatu yang <em>Luar Biasa</em>">Let's Build Something <em>Great</em></h1>
+    <p class="page-subtitle" data-en="Have a project in mind? I'd love to hear about it. Let's create something amazing together." data-id="Punya proyek yang ingin dikerjakan? Saya ingin mendengarnya. Mari buat sesuatu yang menakjubkan bersama.">Have a project in mind? I'd love to hear about it. Let's create something amazing together.</p>
+  </div>
+</div>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- LEFT: INFO -->
+      <div>
+        <div class="section-label fade-up" data-en="Get In Touch" data-id="Hubungi Saya">Get In Touch</div>
+        <h2 class="section-title fade-up" style="font-size:2rem;margin-bottom:28px" data-en="I'm <em>Available</em>" data-id="Saya <em>Tersedia</em>">I'm <em>Available</em></h2>
+
+        <div class="avail-card fade-up">
+          <div class="avail-status">
+            <div class="avail-dot"></div>
+            <div class="avail-text" data-en="Currently Available for Projects" data-id="Saat Ini Tersedia untuk Proyek">Currently Available for Projects</div>
+          </div>
+          <p class="avail-desc" data-en="I'm accepting new clients for web design, AI tools, and VA services. Typical response time: under 2 hours." data-id="Saya menerima klien baru untuk web design, AI tools, dan layanan VA. Waktu respons biasanya: di bawah 2 jam.">I'm accepting new clients for web design, AI tools, and VA services. Typical response time: under 2 hours.</p>
+        </div>
+
+        <div class="info-block fade-up">
+          <div class="info-card">
+            <div class="info-icon">💬</div>
+            <div>
+              <div class="info-label">WhatsApp</div>
+              <div class="info-value">+62 8XX XXXX XXXX</div>
+              <div class="info-sub" data-en="Fastest response · Mon–Sat 08:00–20:00" data-id="Respons tercepat · Sen–Sab 08:00–20:00">Fastest response · Mon–Sat 08:00–20:00</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-label" data-en="Location" data-id="Lokasi">Location</div>
+              <div class="info-value">Denpasar, Bali, Indonesia</div>
+              <div class="info-sub" data-en="WITA (UTC+8) · Remote-friendly" data-id="WITA (UTC+8) · Kerja remote">WITA (UTC+8) · Remote-friendly</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="info-icon">🌐</div>
+            <div>
+              <div class="info-label">Website</div>
+              <div class="info-value">arwandaamalisa.my.id</div>
+              <div class="info-sub" data-en="Portfolio & services" data-id="Portfolio & layanan">Portfolio & services</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label fade-up" data-en="Find Me On" data-id="Temukan Saya Di">Find Me On</div>
+        <div class="social-grid fade-up">
+          <a href="#" class="social-btn">
+            <span class="social-icon">📸</span>
+            <div><div class="social-name">Instagram</div><div class="social-handle">@arwandaamalisa</div></div>
+          </a>
+          <a href="#" class="social-btn">
+            <span class="social-icon">💼</span>
+            <div><div class="social-name">LinkedIn</div><div class="social-handle">Arwanda Amalisa</div></div>
+          </a>
+          <a href="#" class="social-btn">
+            <span class="social-icon">🎵</span>
+            <div><div class="social-name">TikTok</div><div class="social-handle">@arwandaamalisa</div></div>
+          </a>
+          <a href="#" class="social-btn">
+            <span class="social-icon">💬</span>
+            <div><div class="social-name">WhatsApp</div><div class="social-handle" data-en="Message me" data-id="Kirim pesan">Message me</div></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: FORM -->
+      <div class="contact-form fade-up">
+        <div class="form-title" data-en="Send a Message" data-id="Kirim Pesan">Send a Message</div>
+        <p class="form-sub" data-en="Fill in the form below and I'll get back to you via WhatsApp within 2 hours. Or jump straight to WhatsApp if you prefer!" data-id="Isi form di bawah dan saya akan menghubungi kamu via WhatsApp dalam 2 jam. Atau langsung chat WhatsApp jika lebih suka!">Fill in the form below and I'll get back to you via WhatsApp within 2 hours. Or jump straight to WhatsApp if you prefer!</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-en="Your Name *" data-id="Nama Kamu *">Your Name *</label>
+            <input type="text" class="form-input" id="cName" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-en="WhatsApp / Email *" data-id="WhatsApp / Email *">WhatsApp / Email *</label>
+            <input type="text" class="form-input" id="cContact" placeholder="+62 or email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="Service Needed *" data-id="Layanan yang Dibutuhkan *">Service Needed *</label>
+          <select class="form-select" id="cService">
+            <option value="" data-en="-- Select a Service --" data-id="-- Pilih Layanan --">-- Select a Service --</option>
+            <option data-en="Web Design — Landing Page (Rp 799k)" data-id="Web Design — Landing Page (Rp 799k)">Web Design — Landing Page (Rp 799k)</option>
+            <option data-en="Web Design — Multi-page (Rp 1.5jt)" data-id="Web Design — Multi-page (Rp 1,5jt)">Web Design — Multi-page (Rp 1.5jt)</option>
+            <option data-en="AI Content & Caption" data-id="AI Konten & Caption">AI Content & Caption</option>
+            <option data-en="AI Video (HeyGen)" data-id="AI Video (HeyGen)">AI Video (HeyGen)</option>
+            <option data-en="Virtual Assistant" data-id="Virtual Assistant">Virtual Assistant</option>
+            <option data-en="GoHighLevel CRM Setup" data-id="Setup GoHighLevel CRM">GoHighLevel CRM Setup</option>
+            <option data-en="Custom / Not Sure" data-id="Kustom / Belum Tahu">Custom / Not Sure</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-en="Budget Range" data-id="Estimasi Budget">Budget Range</label>
+            <select class="form-select" id="cBudget">
+              <option data-en="Under Rp 1 million" data-id="Di bawah Rp 1 juta">Under Rp 1 million</option>
+              <option data-en="Rp 1–3 million" data-id="Rp 1–3 juta">Rp 1–3 million</option>
+              <option data-en="Rp 3–10 million" data-id="Rp 3–10 juta">Rp 3–10 million</option>
+              <option data-en="Rp 10 million+" data-id="Rp 10 juta+">Rp 10 million+</option>
+              <option data-en="Let's discuss" data-id="Diskusi dulu">Let's discuss</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-en="Timeline" data-id="Timeline">Timeline</label>
+            <select class="form-select" id="cTimeline">
+              <option data-en="ASAP (1–3 days)" data-id="Segera (1–3 hari)">ASAP (1–3 days)</option>
+              <option data-en="This week" data-id="Minggu ini">This week</option>
+              <option data-en="This month" data-id="Bulan ini">This month</option>
+              <option data-en="Flexible" data-id="Fleksibel">Flexible</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" data-en="Tell Me About Your Project *" data-id="Ceritakan Proyekmu *">Tell Me About Your Project *</label>
+          <textarea class="form-textarea" id="cMessage" placeholder="What are you building? Who is your target audience? Any design references?"></textarea>
+        </div>
+
+        <button class="form-submit" onclick="submitContact()" data-en="✦ Send Message via WhatsApp" data-id="✦ Kirim Pesan via WhatsApp">✦ Send Message via WhatsApp</button>
+        <div class="form-divider" data-en="or" data-id="atau">or</div>
+        <a href="https://wa.me/628XXXXXXXXX?text=Hi Arwanda! I'd like to discuss a project 😊" target="_blank" class="form-wa" data-en="💬 Chat Directly on WhatsApp" data-id="💬 Chat Langsung di WhatsApp">💬 Chat Directly on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="section-label fade-up" data-en="Common Questions" data-id="Pertanyaan Umum">Common Questions</div>
+    <h2 class="section-title fade-up" data-en="Frequently <em>Asked</em>" data-id="Yang Sering <em>Ditanya</em>">Frequently <em>Asked</em></h2>
+    <div class="faq-grid">
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="How fast can you deliver a website?" data-id="Seberapa cepat bisa selesaikan website?">How fast can you deliver a website?</span></div>
+        <p class="faq-a" data-en="Landing pages are delivered in 1–3 business days. Multi-page websites take 3–7 days. Timeline starts after you send all assets (logo, photos, content)." data-id="Landing page selesai dalam 1–3 hari kerja. Website multi-halaman 3–7 hari. Timeline dimulai setelah kamu mengirim semua aset (logo, foto, konten).">Landing pages are delivered in 1–3 business days. Multi-page websites take 3–7 days. Timeline starts after you send all assets (logo, photos, content).</p>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="Do I need to provide photos and content?" data-id="Apakah saya perlu menyediakan foto dan konten?">Do I need to provide photos and content?</span></div>
+        <p class="faq-a" data-en="Yes, ideally. Your own photos make the website more authentic. If you don't have photos, I can use high-quality stock photos from Unsplash as placeholders." data-id="Ya, idealnya. Foto asli membuat website lebih autentik. Jika tidak punya foto, saya bisa menggunakan foto stock berkualitas tinggi dari Unsplash sebagai placeholder.">Yes, ideally. Your own photos make the website more authentic. If you don't have photos, I can use high-quality stock photos from Unsplash as placeholders.</p>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="What payment methods do you accept?" data-id="Metode pembayaran apa yang diterima?">What payment methods do you accept?</span></div>
+        <p class="faq-a" data-en="Bank transfer (BCA, Mandiri), GoPay, OVO, QRIS, and PayPal for international clients. 50% DP to start, 50% upon completion." data-id="Transfer bank (BCA, Mandiri), GoPay, OVO, QRIS, dan PayPal untuk klien internasional. DP 50% untuk mulai, 50% setelah selesai.">Bank transfer (BCA, Mandiri), GoPay, OVO, QRIS, and PayPal for international clients. 50% DP to start, 50% upon completion.</p>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="Will the website work on mobile?" data-id="Apakah website akan berfungsi di HP?">Will the website work on mobile?</span></div>
+        <p class="faq-a" data-en="Absolutely. Every website I build is mobile-first and fully responsive. It'll look great on phones, tablets, and desktops." data-id="Tentu saja. Setiap website yang saya buat adalah mobile-first dan sepenuhnya responsif. Tampil bagus di HP, tablet, dan laptop.">Absolutely. Every website I build is mobile-first and fully responsive. It'll look great on phones, tablets, and desktops.</p>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="Do you work with international clients?" data-id="Apakah bekerja dengan klien internasional?">Do you work with international clients?</span></div>
+        <p class="faq-a" data-en="Yes! I regularly work with clients from Canada, Australia, and beyond. Communication via WhatsApp, email, or video call. Invoicing via PayPal or Wise." data-id="Ya! Saya rutin bekerja dengan klien dari Kanada, Australia, dan negara lainnya. Komunikasi via WhatsApp, email, atau video call.">Yes! I regularly work with clients from Canada, Australia, and beyond. Communication via WhatsApp, email, or video call.</p>
+      </div>
+      <div class="faq-item fade-up">
+        <div class="faq-q"><span class="faq-q-icon">Q</span><span data-en="What if I want changes after delivery?" data-id="Bagaimana jika ingin perubahan setelah selesai?">What if I want changes after delivery?</span></div>
+        <p class="faq-a" data-en="Each package includes revisions (1x for Starter, 2x for Professional). Additional revisions or major changes after delivery are charged at a reasonable rate." data-id="Setiap paket sudah termasuk revisi (1x untuk Starter, 2x untuk Professional). Revisi tambahan atau perubahan besar setelah selesai dikenakan biaya yang wajar.">Each package includes revisions (1x for Starter, 2x for Professional). Additional revisions or major changes after delivery are charged at a reasonable rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="features-bar">
+  <div class="container" style="padding:0">
+    <div class="features-grid">
+      <div class="feature-item"><div class="feature-icon">⚡</div><div><div class="feature-title" data-en="Fast Delivery" data-id="Pengiriman Cepat">Fast Delivery</div><div class="feature-desc" data-en="1–7 days turnaround" data-id="Selesai 1–7 hari">1–7 days turnaround</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🌏</div><div><div class="feature-title" data-en="International Clients" data-id="Klien Internasional">International Clients</div><div class="feature-desc" data-en="CA, AU, ID & more" data-id="CA, AU, ID & lainnya">CA, AU, ID & more</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🤖</div><div><div class="feature-title" data-en="AI-Powered" data-id="Berbasis AI">AI-Powered</div><div class="feature-desc">HeyGen, ElevenLabs, Claude</div></div></div>
+      <div class="feature-item"><div class="feature-icon">✨</div><div><div class="feature-title" data-en="Custom Design" data-id="Desain Kustom">Custom Design</div><div class="feature-desc" data-en="100% unique, no templates" data-id="100% unik, tanpa template">100% unique, no templates</div></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Arwanda <span class="footer-logo-dot"></span> Amalisa</div>
+        <p class="footer-desc" data-en="Web designer & AI specialist based in Bali, Indonesia." data-id="Web designer & AI specialist berbasis di Bali.">Web designer & AI specialist based in Bali, Indonesia.</p>
+        <div class="footer-social"><a href="#" class="fs-btn">📸</a><a href="#" class="fs-btn">💼</a><a href="#" class="fs-btn">💬</a></div>
+      </div>
+      <div><div class="footer-heading">Navigate</div><ul class="footer-links"><li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li><li><a href="portfolio.html" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li><li><a href="services.html" data-en="Services" data-id="Layanan">Services</a></li><li><a href="contact.html" data-en="Contact" data-id="Kontak">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Services</div><ul class="footer-links"><li><a href="services.html">Web Design</a></li><li><a href="services.html">AI Content & Caption</a></li><li><a href="services.html">AI Video (HeyGen)</a></li><li><a href="services.html">Virtual Assistant</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><ul class="footer-links"><li><a href="#">arwandaamalisa.my.id</a></li><li><a href="#">Bali, Indonesia</a></li><li><a href="contact.html" data-en="Send a Message" data-id="Kirim Pesan">Send a Message</a></li><li><a href="#" data-en="✅ Available for Projects" data-id="✅ Tersedia untuk Proyek">✅ Available</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 Arwanda Amalisa. All rights reserved.</div>
+      <div class="footer-credit">Designed & built with ♥ in Bali</div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+function submitContact() {
+  const lang = localStorage.getItem('aw_lang') || 'en';
+  const name = document.getElementById('cName').value;
+  const contact = document.getElementById('cContact').value;
+  const service = document.getElementById('cService').value;
+  const budget = document.getElementById('cBudget').value;
+  const timeline = document.getElementById('cTimeline').value;
+  const message = document.getElementById('cMessage').value;
+
+  if (!name || !contact || !service || !message) {
+    showNotif(lang === 'en' ? '⚠️ Please fill in all required fields.' : '⚠️ Mohon lengkapi semua field yang wajib diisi.');
+    return;
+  }
+
+  const msg = lang === 'en'
+    ? `Hi Arwanda! 👋\n\n🙋 Name: ${name}\n📞 Contact: ${contact}\n🛠️ Service: ${service}\n💰 Budget: ${budget}\n⏱️ Timeline: ${timeline}\n\n💬 Project Details:\n${message}\n\nLooking forward to working with you! 🚀`
+    : `Halo Arwanda! 👋\n\n🙋 Nama: ${name}\n📞 Kontak: ${contact}\n🛠️ Layanan: ${service}\n💰 Budget: ${budget}\n⏱️ Timeline: ${timeline}\n\n💬 Detail Proyek:\n${message}\n\nDitunggu responnya ya! 🚀`;
+
+  showNotif(lang === 'en' ? '✨ Connecting you to Arwanda...' : '✨ Menghubungkan kamu ke Arwanda...');
+  setTimeout(() => window.open(`https://wa.me/628XXXXXXXXX?text=${encodeURIComponent(msg)}`, '_blank'), 1200);
+}
+</script>
+</body>
+</html>

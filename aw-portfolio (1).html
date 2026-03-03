@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Arwanda Amalisa</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .filter-bar {
+    background: var(--navy-mid);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 20px 0;
+    position: sticky;
+    top: 71px;
+    z-index: 50;
+  }
+
+  .filter-inner { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+  .filter-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--gray);
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: rgba(201,168,76,0.4); color: var(--gold-light); }
+  .filter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 700; }
+
+  .portfolio-section { background: var(--navy); }
+
+  .portfolio-count {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .p-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.35s;
+    cursor: pointer;
+  }
+
+  .p-card:hover {
+    border-color: rgba(201,168,76,0.28);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 56px rgba(0,0,0,0.4);
+  }
+
+  .p-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg-villa { background: linear-gradient(135deg, #0D1F3C, #1A3A6B); }
+  .bg-cafe { background: linear-gradient(135deg, #2C1A0E, #5C3D2E); }
+  .bg-dapur { background: linear-gradient(135deg, #1A1200, #4A3300); }
+  .bg-bloom { background: linear-gradient(135deg, #3D1A2E, #7A3E5E); }
+  .bg-finai { background: linear-gradient(135deg, #0B2818, #1A5C3A); }
+  .bg-caption { background: linear-gradient(135deg, #1A0B2E, #3D1A6B); }
+
+  .p-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(11,22,40,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    gap: 12px;
+  }
+
+  .p-card:hover .p-overlay { opacity: 1; }
+
+  .p-view-btn {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .p-view-btn:hover { background: var(--gold-light); }
+
+  .p-body { padding: 22px 24px; }
+
+  .p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+
+  .p-tag {
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .p-name { font-family: 'Cormorant', serif; font-size: 1.2rem; font-weight: 600; color: var(--white); margin-bottom: 6px; line-height: 1.3; }
+  .p-desc { font-size: 0.78rem; font-weight: 300; color: var(--gray); line-height: 1.6; margin-bottom: 14px; }
+
+  .p-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 14px; }
+  .p-type { font-size: 0.68rem; font-weight: 500; color: var(--gray); }
+  .p-year { font-size: 0.68rem; font-weight: 300; color: rgba(255,255,255,0.3); }
+
+  /* FEATURED */
+  .featured-section { background: var(--navy-mid); border-top: 1px solid rgba(201,168,76,0.08); }
+
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 48px;
+    transition: border-color 0.3s;
+  }
+
+  .featured-card:hover { border-color: rgba(201,168,76,0.3); }
+
+  .fc-img {
+    aspect-ratio: auto;
+    min-height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    position: relative;
+  }
+
+  .fc-img::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .fc-content { padding: 52px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .fc-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .fc-label::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+  .fc-name { font-family: 'Cormorant', serif; font-size: 2.2rem; font-weight: 600; color: var(--white); margin-bottom: 10px; line-height: 1.15; }
+  .fc-name em { font-style: italic; color: var(--gold); }
+  .fc-desc { font-size: 0.88rem; font-weight: 300; color: var(--gray); line-height: 1.8; margin-bottom: 28px; }
+  .fc-features { margin-bottom: 32px; }
+  .fc-feat { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-bottom: 8px; font-weight: 300; }
+  .fc-feat::before { content: '✦'; color: var(--gold); font-size: 0.6rem; }
+
+  @media (max-width: 768px) {
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .filter-bar { top: 62px; }
+    .featured-card { grid-template-columns: 1fr; }
+    .fc-img { min-height: 220px; }
+    .fc-content { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Arwanda <span class="nav-logo-dot"></span> Amalisa</a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li>
+    <li><a href="portfolio.html" class="active" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li>
+    <li><a href="services.html" data-en="Services" data-id="Layanan">Services</a></li>
+    <li><a href="contact.html" data-en="Contact" data-id="Kontak">Contact</a></li>
+  </ul>
+  <div class="nav-lang">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="id">ID</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Portfolio" data-id="Portfolio">Portfolio</span></div>
+    <h1 class="page-title" data-en="Selected <em>Work</em>" data-id="Karya <em>Terpilih</em>">Selected <em>Work</em></h1>
+    <p class="page-subtitle" data-en="A collection of websites and digital tools I've crafted for businesses across Indonesia and internationally." data-id="Koleksi website dan tools digital yang saya buat untuk bisnis di Indonesia dan internasional.">A collection of websites and digital tools I've crafted for businesses across Indonesia and internationally.</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-inner">
+      <span class="filter-label" data-en="Filter:" data-id="Filter:">Filter:</span>
+      <button class="filter-btn active" onclick="filterPortfolio('all',this)" data-en="All Work" data-id="Semua">All Work</button>
+      <button class="filter-btn" onclick="filterPortfolio('webdesign',this)" data-en="Web Design" data-id="Web Design">Web Design</button>
+      <button class="filter-btn" onclick="filterPortfolio('aitools',this)" data-en="AI Tools" data-id="AI Tools">AI Tools</button>
+      <button class="filter-btn" onclick="filterPortfolio('ecommerce',this)" data-en="E-Commerce" data-id="E-Commerce">E-Commerce</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED -->
+<section class="featured-section">
+  <div class="container">
+    <div class="section-label fade-up" data-en="Featured Project" data-id="Proyek Unggulan">Featured Project</div>
+    <div class="featured-card fade-up">
+      <div class="fc-img bg-finai">💰</div>
+      <div class="fc-content">
+        <div class="fc-label" data-en="AI-Powered Web App" data-id="Aplikasi Web Berbasis AI">AI-Powered Web App</div>
+        <div class="fc-name">FinAI — <em>Budget Planner</em></div>
+        <p class="fc-desc" data-en="An AI-powered personal finance application built with React and Claude API. Features intelligent budget advice, expense tracking, and financial insights. Deployed on Vercel with Supabase cloud database for data persistence." data-id="Aplikasi keuangan pribadi berbasis AI yang dibangun dengan React dan Claude API. Fitur saran anggaran cerdas, pelacakan pengeluaran, dan wawasan keuangan. Deploy di Vercel dengan database Supabase.">An AI-powered personal finance application built with React and Claude API. Features intelligent budget advice, expense tracking, and financial insights. Deployed on Vercel with Supabase cloud database for data persistence.</p>
+        <div class="fc-features">
+          <div class="fc-feat" data-en="Claude AI integration for smart budget advice" data-id="Integrasi Claude AI untuk saran anggaran cerdas">Claude AI integration for smart budget advice</div>
+          <div class="fc-feat" data-en="Supabase cloud database for data persistence" data-id="Database cloud Supabase untuk persistensi data">Supabase cloud database for data persistence</div>
+          <div class="fc-feat" data-en="React + Vite · Deployed on Vercel" data-id="React + Vite · Deploy di Vercel">React + Vite · Deployed on Vercel</div>
+          <div class="fc-feat" data-en="PWA-ready for mobile installation" data-id="PWA-ready untuk instalasi mobile">PWA-ready for mobile installation</div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://finai-planner.vercel.app" target="_blank" class="btn-gold" data-en="Live Demo →" data-id="Demo Langsung →">Live Demo →</a>
+          <a href="services.html" class="btn-outline" data-en="Similar Project?" data-id="Proyek Serupa?">Similar Project?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL PROJECTS -->
+<section class="portfolio-section">
+  <div class="container">
+    <div class="portfolio-count fade-up" id="portfolioCount" data-en="Showing 6 projects" data-id="Menampilkan 6 proyek">Showing 6 projects</div>
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+  </div>
+</section>
+
+<div class="features-bar">
+  <div class="container" style="padding:0">
+    <div class="features-grid">
+      <div class="feature-item"><div class="feature-icon">⚡</div><div><div class="feature-title" data-en="Fast Delivery" data-id="Pengiriman Cepat">Fast Delivery</div><div class="feature-desc" data-en="1–7 days turnaround" data-id="Selesai 1–7 hari">1–7 days turnaround</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🌏</div><div><div class="feature-title" data-en="International Clients" data-id="Klien Internasional">International Clients</div><div class="feature-desc" data-en="CA, AU, ID & more" data-id="CA, AU, ID & lainnya">CA, AU, ID & more</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🤖</div><div><div class="feature-title" data-en="AI-Powered" data-id="Berbasis AI">AI-Powered</div><div class="feature-desc">HeyGen, ElevenLabs, Claude</div></div></div>
+      <div class="feature-item"><div class="feature-icon">✨</div><div><div class="feature-title" data-en="Custom Design" data-id="Desain Kustom">Custom Design</div><div class="feature-desc" data-en="100% unique, no templates" data-id="100% unik, tanpa template">100% unique, no templates</div></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Arwanda <span class="footer-logo-dot"></span> Amalisa</div>
+        <p class="footer-desc" data-en="Web designer & AI specialist based in Bali, Indonesia." data-id="Web designer & AI specialist berbasis di Bali.">Web designer & AI specialist based in Bali, Indonesia.</p>
+        <div class="footer-social"><a href="#" class="fs-btn">📸</a><a href="#" class="fs-btn">💼</a><a href="#" class="fs-btn">💬</a></div>
+      </div>
+      <div><div class="footer-heading">Navigate</div><ul class="footer-links"><li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li><li><a href="portfolio.html" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li><li><a href="services.html" data-en="Services" data-id="Layanan">Services</a></li><li><a href="contact.html" data-en="Contact" data-id="Kontak">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Services</div><ul class="footer-links"><li><a href="services.html">Web Design</a></li><li><a href="services.html">AI Content & Caption</a></li><li><a href="services.html">AI Video (HeyGen)</a></li><li><a href="services.html">Virtual Assistant</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><ul class="footer-links"><li><a href="#">arwandaamalisa.my.id</a></li><li><a href="#">Bali, Indonesia</a></li><li><a href="contact.html" data-en="Send a Message" data-id="Kirim Pesan">Send a Message</a></li><li><a href="#" data-en="✅ Available for Projects" data-id="✅ Tersedia untuk Proyek">✅ Available</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 Arwanda Amalisa. All rights reserved.</div>
+      <div class="footer-credit">Designed & built with ♥ in Bali</div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+const PROJECTS = [
+  { emoji:'🏨', bg:'bg-villa', tags:['Web Design','Multi-page'], name:'Villa Purnama Luxury', desc_en:'Premium villa rental website with dark navy aesthetic, room showcase, pricing, and booking integration.', desc_id:'Website villa mewah dengan estetika navy gelap, showcase kamar, pricing, dan integrasi booking.', type_en:'Multi-page Website', type_id:'Website Multi-halaman', year:'2024', cat:'webdesign' },
+  { emoji:'☕', bg:'bg-cafe', tags:['Web Design','Landing Page'], name:'Kopi Rimba Cafe', desc_en:'Specialty coffee cafe in Ubud with real photography, menu gallery, and table reservation via WhatsApp.', desc_id:'Kafe kopi specialty di Ubud dengan foto asli, galeri menu, dan reservasi via WhatsApp.', type_en:'Landing Page', type_id:'Landing Page', year:'2024', cat:'webdesign' },
+  { emoji:'🛍️', bg:'bg-dapur', tags:['Web Design','E-Commerce'], name:'Dapur Nusantara', desc_en:'Bold UMKM e-commerce with shopping cart, category filters, promo codes, and WhatsApp checkout.', desc_id:'E-commerce UMKM bold dengan keranjang belanja, filter kategori, kode promo, dan checkout WhatsApp.', type_en:'Multi-page E-Commerce', type_id:'E-Commerce Multi-halaman', year:'2024', cat:'ecommerce' },
+  { emoji:'🌸', bg:'bg-bloom', tags:['Web Design','Landing Page'], name:'Bloom Beauty Studio', desc_en:'Elegant feminine salon website with floating petals animation, service showcase, and team profiles.', desc_id:'Website salon feminine dengan animasi kelopak bunga, showcase layanan, dan profil tim.', type_en:'Landing Page', type_id:'Landing Page', year:'2024', cat:'webdesign' },
+  { emoji:'🤖', bg:'bg-caption', tags:['AI Tool','Web App'], name:'AI Caption Generator', desc_en:'Free AI-powered Instagram caption generator for Indonesian UMKM with niche selection, tone options, and hashtags.', desc_id:'Generator caption Instagram berbasis AI gratis untuk UMKM Indonesia dengan pilihan niche, tone, dan hashtag.', type_en:'AI Web App', type_id:'Aplikasi AI', year:'2024', cat:'aitools' },
+  { emoji:'💰', bg:'bg-finai', tags:['AI Tool','Web App'], name:'FinAI Budget Planner', desc_en:'AI-powered personal finance app with Claude integration, expense tracking, and smart budget insights.', desc_id:'Aplikasi keuangan berbasis AI dengan integrasi Claude, pelacakan pengeluaran, dan wawasan anggaran.', type_en:'AI Web App', type_id:'Aplikasi AI', year:'2024', cat:'aitools' },
+];
+
+function renderPortfolio(cat) {
+  const lang = localStorage.getItem('aw_lang') || 'en';
+  const list = cat === 'all' ? PROJECTS : PROJECTS.filter(p => p.cat === cat);
+  const countEl = document.getElementById('portfolioCount');
+  countEl.textContent = lang === 'en' ? `Showing ${list.length} projects` : `Menampilkan ${list.length} proyek`;
+
+  document.getElementById('portfolioGrid').innerHTML = list.map(p => `
+    <div class="p-card fade-up">
+      <div class="p-img ${p.bg}">
+        ${p.emoji}
+        <div class="p-overlay">
+          <a href="contact.html" class="p-view-btn">${lang === 'en' ? 'Hire Me' : 'Hubungi'}</a>
+        </div>
+      </div>
+      <div class="p-body">
+        <div class="p-tags">${p.tags.map(t => `<span class="p-tag">${t}</span>`).join('')}</div>
+        <div class="p-name">${p.name}</div>
+        <p class="p-desc">${lang === 'en' ? p.desc_en : p.desc_id}</p>
+        <div class="p-meta">
+          <span class="p-type">${lang === 'en' ? p.type_en : p.type_id}</span>
+          <span class="p-year">${p.year}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.fade-up').forEach(el => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    observer.observe(el);
+  });
+}
+
+function filterPortfolio(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPortfolio(cat);
+}
+
+document.addEventListener('DOMContentLoaded', () => renderPortfolio('all'));
+</script>
+</body>
+</html>

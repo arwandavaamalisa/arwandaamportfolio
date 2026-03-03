@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — Arwanda Amalisa</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .services-section { background: var(--navy); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 56px;
+  }
+
+  .service-card {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 16px;
+    padding: 44px 40px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), var(--gold-light), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .service-card:hover { border-color: rgba(201,168,76,0.25); transform: translateY(-4px); box-shadow: 0 24px 56px rgba(0,0,0,0.35); }
+  .service-card:hover::after { opacity: 1; }
+
+  .sc-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 24px; }
+  .sc-icon-wrap { width: 56px; height: 56px; background: rgba(201,168,76,0.08); border: 1px solid rgba(201,168,76,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
+  .sc-name { font-family: 'Cormorant', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+  .sc-price-tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+
+  .sc-desc { font-size: 0.88rem; font-weight: 300; color: var(--gray); line-height: 1.8; margin-bottom: 24px; }
+
+  .sc-includes { margin-bottom: 28px; }
+  .sc-includes-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .sc-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.82rem; font-weight: 300; color: rgba(255,255,255,0.75); }
+  .sc-item::before { content: ''; width: 4px; height: 4px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+
+  .sc-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* PRICING TABLE */
+  .pricing-section { background: var(--navy-mid); border-top: 1px solid rgba(201,168,76,0.08); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .pricing-card {
+    background: var(--navy);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 16px;
+    padding: 36px 32px;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .pricing-card.featured {
+    background: var(--navy-light);
+    border-color: rgba(201,168,76,0.35);
+    box-shadow: 0 24px 56px rgba(0,0,0,0.35);
+  }
+
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 24px 56px rgba(0,0,0,0.3); }
+
+  .pc-badge {
+    position: absolute;
+    top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--navy);
+    padding: 4px 16px;
+    border-radius: 100px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .pc-name { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .pc-price { font-family: 'Cormorant', serif; font-size: 2.8rem; font-weight: 600; color: var(--white); line-height: 1; margin-bottom: 4px; }
+  .pc-period { font-size: 0.75rem; font-weight: 300; color: var(--gray); margin-bottom: 20px; }
+  .pc-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 20px; }
+  .pc-feature { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.82rem; color: rgba(255,255,255,0.7); font-weight: 300; }
+  .pc-feature-icon { color: var(--gold); font-size: 0.75rem; flex-shrink: 0; }
+  .pc-cta { width: 100%; margin-top: 24px; text-align: center; display: block; }
+
+  /* PROCESS */
+  .process-section { background: var(--navy); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 52px;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .step-item { text-align: center; position: relative; }
+
+  .step-num {
+    width: 56px; height: 56px;
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 0 auto 16px;
+    position: relative;
+    z-index: 1;
+    background: var(--navy);
+  }
+
+  .step-title { font-weight: 600; font-size: 0.9rem; color: var(--white); margin-bottom: 8px; }
+  .step-desc { font-size: 0.78rem; font-weight: 300; color: var(--gray); line-height: 1.6; }
+
+  @media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Arwanda <span class="nav-logo-dot"></span> Amalisa</a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li>
+    <li><a href="portfolio.html" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li>
+    <li><a href="services.html" class="active" data-en="Services" data-id="Layanan">Services</a></li>
+    <li><a href="contact.html" data-en="Contact" data-id="Kontak">Contact</a></li>
+  </ul>
+  <div class="nav-lang">
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="id">ID</button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>›</span> <span data-en="Services" data-id="Layanan">Services</span></div>
+    <h1 class="page-title" data-en="Services That <em>Deliver</em>" data-id="Layanan yang <em>Menghasilkan</em>">Services That <em>Deliver</em></h1>
+    <p class="page-subtitle" data-en="From beautiful websites to AI-powered tools — I help businesses look professional and work smarter." data-id="Dari website cantik hingga tools berbasis AI — saya membantu bisnis tampil profesional dan bekerja lebih cerdas.">From beautiful websites to AI-powered tools — I help businesses look professional and work smarter.</p>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section">
+  <div class="container">
+    <div class="services-grid">
+
+      <div class="service-card fade-up">
+        <div class="sc-header">
+          <div class="sc-icon-wrap">🌐</div>
+          <div>
+            <div class="sc-name" data-en="Web Design" data-id="Web Design">Web Design</div>
+            <div class="sc-price-tag" data-en="From Rp 799,000" data-id="Mulai Rp 799.000">From Rp 799,000</div>
+          </div>
+        </div>
+        <p class="sc-desc" data-en="Custom, mobile-first websites that look stunning and convert visitors into customers. Every site is designed from scratch — no templates, no shortcuts." data-id="Website kustom yang mobile-first, tampil memukau, dan mengubah pengunjung menjadi pelanggan. Setiap website dirancang dari nol — tanpa template.">Custom, mobile-first websites that look stunning and convert visitors into customers. Every site is designed from scratch — no templates, no shortcuts.</p>
+        <div class="sc-includes">
+          <div class="sc-includes-title" data-en="What's Included" data-id="Yang Didapat">What's Included</div>
+          <div class="sc-item" data-en="Landing Page — Rp 799,000 (1–3 days)" data-id="Landing Page — Rp 799.000 (1–3 hari)">Landing Page — Rp 799,000 (1–3 days)</div>
+          <div class="sc-item" data-en="Multi-page Website — Rp 1,500,000 (3–7 days)" data-id="Website Multi-halaman — Rp 1.500.000 (3–7 hari)">Multi-page Website — Rp 1,500,000 (3–7 days)</div>
+          <div class="sc-item" data-en="Mobile responsive design" data-id="Desain responsif mobile">Mobile responsive design</div>
+          <div class="sc-item" data-en="WhatsApp & social media integration" data-id="Integrasi WhatsApp & media sosial">WhatsApp & social media integration</div>
+          <div class="sc-item" data-en="Free deployment on Vercel" data-id="Deploy gratis di Vercel">Free deployment on Vercel</div>
+        </div>
+        <div class="sc-cta">
+          <a href="contact.html" class="btn-gold" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+          <a href="portfolio.html" class="btn-outline" data-en="See Examples" data-id="Lihat Contoh">See Examples</a>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <div class="sc-header">
+          <div class="sc-icon-wrap">🤖</div>
+          <div>
+            <div class="sc-name" data-en="AI Content & Caption" data-id="AI Konten & Caption">AI Content & Caption</div>
+            <div class="sc-price-tag" data-en="Custom Pricing" data-id="Harga Menyesuaikan">Custom Pricing</div>
+          </div>
+        </div>
+        <p class="sc-desc" data-en="AI-powered content creation for social media, product descriptions, and marketing copy. Tailored for Indonesian UMKM and international markets." data-id="Pembuatan konten berbasis AI untuk media sosial, deskripsi produk, dan copy marketing. Disesuaikan untuk UMKM Indonesia dan pasar internasional.">AI-powered content creation for social media, product descriptions, and marketing copy. Tailored for Indonesian UMKM and international markets.</p>
+        <div class="sc-includes">
+          <div class="sc-includes-title" data-en="What's Included" data-id="Yang Didapat">What's Included</div>
+          <div class="sc-item" data-en="Instagram & TikTok captions" data-id="Caption Instagram & TikTok">Instagram & TikTok captions</div>
+          <div class="sc-item" data-en="Multiple tone & niche options" data-id="Berbagai pilihan tone & niche">Multiple tone & niche options</div>
+          <div class="sc-item" data-en="Hashtag strategy included" data-id="Strategi hashtag termasuk">Hashtag strategy included</div>
+          <div class="sc-item" data-en="Bilingual (EN/ID) content" data-id="Konten bilingual (EN/ID)">Bilingual (EN/ID) content</div>
+          <div class="sc-item" data-en="Monthly content calendar" data-id="Kalender konten bulanan">Monthly content calendar</div>
+        </div>
+        <div class="sc-cta">
+          <a href="contact.html" class="btn-gold" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <div class="sc-header">
+          <div class="sc-icon-wrap">🎬</div>
+          <div>
+            <div class="sc-name" data-en="AI Video (HeyGen)" data-id="AI Video (HeyGen)">AI Video (HeyGen)</div>
+            <div class="sc-price-tag" data-en="Custom Pricing" data-id="Harga Menyesuaikan">Custom Pricing</div>
+          </div>
+        </div>
+        <p class="sc-desc" data-en="Professional AI avatar videos using HeyGen and ElevenLabs voice synthesis. Perfect for product demos, explainer videos, and personalized marketing content." data-id="Video AI avatar profesional menggunakan HeyGen dan ElevenLabs. Cocok untuk demo produk, video explainer, dan konten marketing personal.">Professional AI avatar videos using HeyGen and ElevenLabs voice synthesis. Perfect for product demos, explainer videos, and personalized marketing content.</p>
+        <div class="sc-includes">
+          <div class="sc-includes-title" data-en="What's Included" data-id="Yang Didapat">What's Included</div>
+          <div class="sc-item" data-en="AI avatar video production" data-id="Produksi video AI avatar">AI avatar video production</div>
+          <div class="sc-item" data-en="ElevenLabs voice synthesis" data-id="Sintesis suara ElevenLabs">ElevenLabs voice synthesis</div>
+          <div class="sc-item" data-en="Script writing & editing" data-id="Penulisan & editing script">Script writing & editing</div>
+          <div class="sc-item" data-en="HD video delivery" data-id="Pengiriman video HD">HD video delivery</div>
+        </div>
+        <div class="sc-cta">
+          <a href="contact.html" class="btn-gold" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+        </div>
+      </div>
+
+      <div class="service-card fade-up">
+        <div class="sc-header">
+          <div class="sc-icon-wrap">💼</div>
+          <div>
+            <div class="sc-name" data-en="Virtual Assistant" data-id="Virtual Assistant">Virtual Assistant</div>
+            <div class="sc-price-tag" data-en="Custom Pricing" data-id="Harga Menyesuaikan">Custom Pricing</div>
+          </div>
+        </div>
+        <p class="sc-desc" data-en="Executive-level virtual assistant services powered by AI tools. I help international clients manage their workload efficiently so they can focus on what matters." data-id="Layanan virtual assistant level eksekutif yang ditenagai tools AI. Membantu klien internasional mengelola pekerjaan secara efisien.">Executive-level virtual assistant services powered by AI tools. I help international clients manage their workload efficiently so they can focus on what matters.</p>
+        <div class="sc-includes">
+          <div class="sc-includes-title" data-en="What's Included" data-id="Yang Didapat">What's Included</div>
+          <div class="sc-item" data-en="Email & calendar management" data-id="Manajemen email & kalender">Email & calendar management</div>
+          <div class="sc-item" data-en="Research & data entry" data-id="Riset & input data">Research & data entry</div>
+          <div class="sc-item" data-en="GoHighLevel CRM management" data-id="Manajemen GoHighLevel CRM">GoHighLevel CRM management</div>
+          <div class="sc-item" data-en="Client communication support" data-id="Dukungan komunikasi klien">Client communication support</div>
+        </div>
+        <div class="sc-cta">
+          <a href="contact.html" class="btn-gold" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="container">
+    <div class="section-label fade-up" data-en="Web Design Pricing" data-id="Harga Web Design">Web Design Pricing</div>
+    <h2 class="section-title fade-up" data-en="Simple, <em>Transparent</em> Pricing" data-id="Harga yang <em>Transparan</em>">Simple, <em>Transparent</em> Pricing</h2>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <div class="pc-name" data-en="Starter" data-id="Starter">Starter</div>
+        <div class="pc-price">Rp 799<span style="font-size:1.5rem">k</span></div>
+        <div class="pc-period" data-en="One-time · 1–3 day delivery" data-id="Sekali bayar · Selesai 1–3 hari">One-time · 1–3 day delivery</div>
+        <div class="pc-divider"></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="1 Landing Page" data-id="1 Landing Page">1 Landing Page</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Up to 6 sections" data-id="Hingga 6 section">Up to 6 sections</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Mobile responsive" data-id="Responsif mobile">Mobile responsive</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="WhatsApp integration" data-id="Integrasi WhatsApp">WhatsApp integration</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="1x revision" data-id="1x revisi">1x revision</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Free Vercel deployment" data-id="Deploy gratis Vercel">Free Vercel deployment</span></div>
+        <a href="contact.html" class="btn-outline pc-cta" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+      </div>
+
+      <div class="pricing-card featured fade-up">
+        <div class="pc-badge" data-en="Most Popular" data-id="Terpopuler">Most Popular</div>
+        <div class="pc-name" data-en="Professional" data-id="Professional">Professional</div>
+        <div class="pc-price">Rp 1.5<span style="font-size:1.5rem">jt</span></div>
+        <div class="pc-period" data-en="One-time · 3–7 day delivery" data-id="Sekali bayar · Selesai 3–7 hari">One-time · 3–7 day delivery</div>
+        <div class="pc-divider"></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="4 Pages (Home, Products, About, Contact)" data-id="4 Halaman (Home, Produk, Tentang, Kontak)">4 Pages</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Custom design per page" data-id="Desain kustom per halaman">Custom design per page</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Mobile responsive" data-id="Responsif mobile">Mobile responsive</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="WhatsApp & social integration" data-id="Integrasi WhatsApp & sosial">WhatsApp & social integration</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="2x revisions" data-id="2x revisi">2x revisions</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Free Vercel deployment" data-id="Deploy gratis Vercel">Free Vercel deployment</span></div>
+        <a href="contact.html" class="btn-gold pc-cta" data-en="Get Started" data-id="Mulai Sekarang">Get Started</a>
+      </div>
+
+      <div class="pricing-card fade-up">
+        <div class="pc-name" data-en="Custom" data-id="Kustom">Custom</div>
+        <div class="pc-price" style="font-size:2rem" data-en="Let's Talk" data-id="Diskusi">Let's Talk</div>
+        <div class="pc-period" data-en="Timeline based on scope" data-id="Timeline sesuai kebutuhan">Timeline based on scope</div>
+        <div class="pc-divider"></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="E-commerce websites" data-id="Website e-commerce">E-commerce websites</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="AI chatbot integration" data-id="Integrasi AI chatbot">AI chatbot integration</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="GoHighLevel setup" data-id="Setup GoHighLevel">GoHighLevel setup</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Custom features & integrations" data-id="Fitur & integrasi kustom">Custom features & integrations</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Unlimited revisions" data-id="Revisi unlimited">Unlimited revisions</span></div>
+        <div class="pc-feature"><span class="pc-feature-icon">✦</span> <span data-en="Priority support" data-id="Dukungan prioritas">Priority support</span></div>
+        <a href="contact.html" class="btn-outline pc-cta" data-en="Contact Me" data-id="Hubungi Saya">Contact Me</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="container">
+    <div class="section-label fade-up" data-en="How It Works" data-id="Cara Kerja">How It Works</div>
+    <h2 class="section-title fade-up" data-en="Simple <em>Process</em>, Great Results" data-id="Proses <em>Sederhana</em>, Hasil Luar Biasa">Simple <em>Process</em>, Great Results</h2>
+    <div class="process-steps">
+      <div class="step-item fade-up">
+        <div class="step-num">01</div>
+        <div class="step-title" data-en="Discovery Call" data-id="Konsultasi Awal">Discovery Call</div>
+        <p class="step-desc" data-en="We discuss your goals, target audience, design preferences, and timeline via WhatsApp or video call." data-id="Kita diskusi tujuan, target audience, preferensi desain, dan timeline via WhatsApp atau video call.">We discuss your goals, target audience, design preferences, and timeline via WhatsApp or video call.</p>
+      </div>
+      <div class="step-item fade-up">
+        <div class="step-num">02</div>
+        <div class="step-title" data-en="You Send Assets" data-id="Kirim Aset">You Send Assets</div>
+        <p class="step-desc" data-en="Send your logo, photos, content, and any references. I'll handle the rest." data-id="Kirim logo, foto, konten, dan referensi. Sisanya saya yang urus.">Send your logo, photos, content, and any references. I'll handle the rest.</p>
+      </div>
+      <div class="step-item fade-up">
+        <div class="step-num">03</div>
+        <div class="step-title" data-en="I Build It" data-id="Saya Buat">I Build It</div>
+        <p class="step-desc" data-en="I design and build your website. You'll receive a preview link to review before going live." data-id="Saya desain dan bangun website. Anda akan menerima link preview sebelum live.">I design and build your website. You'll receive a preview link to review before going live.</p>
+      </div>
+      <div class="step-item fade-up">
+        <div class="step-num">04</div>
+        <div class="step-title" data-en="Launch 🚀" data-id="Launching 🚀">Launch 🚀</div>
+        <p class="step-desc" data-en="After your approval, we deploy the website and you're live! Revisions included in every package." data-id="Setelah persetujuan, website langsung live! Revisi sudah termasuk dalam setiap paket.">After your approval, we deploy the website and you're live! Revisions included in every package.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="features-bar">
+  <div class="container" style="padding:0">
+    <div class="features-grid">
+      <div class="feature-item"><div class="feature-icon">⚡</div><div><div class="feature-title" data-en="Fast Delivery" data-id="Pengiriman Cepat">Fast Delivery</div><div class="feature-desc" data-en="1–7 days turnaround" data-id="Selesai 1–7 hari">1–7 days turnaround</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🌏</div><div><div class="feature-title" data-en="International Clients" data-id="Klien Internasional">International Clients</div><div class="feature-desc" data-en="CA, AU, ID & more" data-id="CA, AU, ID & lainnya">CA, AU, ID & more</div></div></div>
+      <div class="feature-item"><div class="feature-icon">🤖</div><div><div class="feature-title" data-en="AI-Powered" data-id="Berbasis AI">AI-Powered</div><div class="feature-desc" data-en="HeyGen, ElevenLabs, Claude" data-id="HeyGen, ElevenLabs, Claude">HeyGen, ElevenLabs, Claude</div></div></div>
+      <div class="feature-item"><div class="feature-icon">✨</div><div><div class="feature-title" data-en="Custom Design" data-id="Desain Kustom">Custom Design</div><div class="feature-desc" data-en="100% unique, no templates" data-id="100% unik, tanpa template">100% unique, no templates</div></div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Arwanda <span class="footer-logo-dot"></span> Amalisa</div>
+        <p class="footer-desc" data-en="Web designer & AI specialist based in Bali, Indonesia." data-id="Web designer & AI specialist berbasis di Bali.">Web designer & AI specialist based in Bali, Indonesia.</p>
+        <div class="footer-social"><a href="#" class="fs-btn">📸</a><a href="#" class="fs-btn">💼</a><a href="#" class="fs-btn">💬</a></div>
+      </div>
+      <div><div class="footer-heading">Navigate</div><ul class="footer-links"><li><a href="index.html" data-en="Home" data-id="Beranda">Home</a></li><li><a href="portfolio.html" data-en="Portfolio" data-id="Portfolio">Portfolio</a></li><li><a href="services.html" data-en="Services" data-id="Layanan">Services</a></li><li><a href="contact.html" data-en="Contact" data-id="Kontak">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Services</div><ul class="footer-links"><li><a href="#">Web Design</a></li><li><a href="#">AI Content & Caption</a></li><li><a href="#">AI Video (HeyGen)</a></li><li><a href="#">Virtual Assistant</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><ul class="footer-links"><li><a href="#">arwandaamalisa.my.id</a></li><li><a href="#">Bali, Indonesia</a></li><li><a href="contact.html" data-en="Send a Message" data-id="Kirim Pesan">Send a Message</a></li><li><a href="#" data-en="✅ Available for Projects" data-id="✅ Tersedia untuk Proyek">✅ Available for Projects</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 Arwanda Amalisa. All rights reserved.</div>
+      <div class="footer-credit">Designed & built with ♥ in Bali</div>
+    </div>
+  </div>
+</footer>
+
+<script src="shared.js"></script>
+</body>
+</html>
